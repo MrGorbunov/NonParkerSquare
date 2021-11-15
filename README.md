@@ -1,4 +1,4 @@
-# Parker Square
+# Non Parker Square
 
 This repository is my attempt to find a non-parker square of squares
 over the integers.
