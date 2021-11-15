@@ -1,0 +1,329 @@
+
+===========================================================
+                 Magic Square of Squares
+===========================================================
+
+Started: Oct 30 2021 
+Author: Michael Gorbunov
+
+
+
+
+ Readings & References
+=============================
+
+Readings:
+[1] https://www.mathpages.com/home/kmath417/kmath417.htm
+[2] https://www.mathpages.com/home/kmath417.htm
+[3] http://multimagie.com/English/SquaresOfSquares.htm
+
+References:
+[4] http://multimagie.com/MorgensternMssSmallestEntry.pdf
+
+
+
+
+
+            =========================
+            =     Existing Work     =
+            =========================
+
+
+ Intro to the Problem
+==============================
+
+A magic square is a square where all sums along the diagnols,
+horizontals, and verticals are equal. For example:
+
+4 9 2
+3 5 7
+8 1 6
+
+Here, the sum is 15 along all lines. Note, it's a requirement
+that all the numbers must be distinct.
+
+A magic square of squares has the same idea as a magic square,
+however all of its numbers must be squares (9, 16, 25) etc.
+Formalizing it, it becomes the following set of equations:
+
+A^2  B^2  C^2
+D^2  E^2  F^2
+G^2  H^2  I^2
+
+A^2 + B^2 + C^2 = S
+D^2 + E^2 + F^2 = S
+G^2 + H^2 + I^2 = S
+
+A^2 + D^2 + G^2 = S
+B^2 + E^2 + H^2 = S
+C^2 + F^2 + I^2 = S
+
+A^2 + E^2 + I^2 = S
+G^2 + E^2 + C^2 = S
+
+setWhere A, B, C, D, E, F, G, H, I are unique integers.
+
+
+
+
+
+
+
+ Current State of Research
+===================================
+
+[3] Describes the current state of research. This problem is solved
+for 4x4 ... 13x13 sized magic squares.
+
+[4] Showed via computer search that all 9 entries must be at least
+the squares of 8 digit numbers.
+
+
+
+
+
+
+ Paramaterization Over the Integers
+====================================
+
+The following section is essentially a summary of [1] & [2]. Go read
+them if you want derivations or more thorough investigations. Those
+two sources cover more information than I do, but I pulled out what
+seemed perhaps useful.
+
+Given the following square:
+
+A B C
+D E F
+G H I
+
+The total sum equals 3E. This means that opposite sided numbers
+must add up to 2E:
+
+A + I = 2E
+B + H = 2E
+ ...
+
+Another object that's useful to search for is an hourglass instead
+of a magic square, i.e.
+
+A B C
+- E -
+G H I
+
+In certain settings (if somehow the DF pair is independent of BH)
+this may be fruitful to use.
+
+Getting back to the magic square, the fact that all sequences have
+a sum of 3E means the entire square can be parametrized with
+only 3 numbers. E defines the sum, A defines I, and then G defines
+C, from which the remaining 4 numbers are simple calculations.
+
+A - -      A - C      A B C
+- E -  =>  - E -  =>  D E F
+G - -      G - I      G H I
+
+I = 2E - A
+C = 2E - G
+
+D = 3E - A - G
+B = 3E - A - C
+F = 3E - I - C
+H = 3E - I - G
+
+
+Because opposite values must add up to 2E, they can be written
+as E +- some value. Thus the following is also a valid parametrization:
+
+ E+m     -      E+n
+  -      E       -
+ E-n     -      E-m
+
+ E+m   E-m-n  E+n
+E-m+n    E   E-n+m
+ E-n   E+n+m  E-m
+
+This may be more useful for showing the existence of a magic square
+of squares, because it gives the restriction that every single one
+of those must be expressible as a square.
+
+In fact, it leads to the result that E must be expressible as a sum
+of 2 squares in more than 4 ways, if it can only be expressed in 4
+ways it cannot form a magic square.
+
+The following is a magic square of squares which satisfies all conditions
+except the diagnol sums:
+
+13^2  23^2  47^2
+35^2  65^2  85^2
+79^2  89^2  91^2
+
+
+
+
+
+
+
+            =========================
+            =         My Work       =
+            =========================
+
+The following work is mostly my own, in that I have been unable to find
+another source doing a similar technique. Very likely this has been
+tried before, but there's a chance this is novel.
+
+
+
+
+ Rational Coefficients
+=====================================
+
+Instead of considering the problem over the integers, consider it over
+the rationals. This allows us to start with the following square:
+
+A B C
+D 1 F
+G H I
+
+
+ When are Integer Solutions Implied
+=====================================
+
+A good question to ask is when does a rational solution imply an
+integer solution. If for example, A, B, ... I are all rationals in 
+the form (a/b)^2, then we can trivially get an integer solution by
+multiplying every rational by the denominators square. Then each
+term because a integer whose factorization is composed of numbers
+squared.
+
+Below, I show that there are no other possible cases. For a rational
+solution to imply an integer solution, it MUST be composed of
+rationals (a/b)^2, which I will now be calling square rationals.
+
+
+
+(Theorem 1.1) 
+a and b can be scaled to a square by a rational if their reduced
+fraction is in the form a^2 / b^2. Note my proof is not bijective, 
+i.e. this is not an iff.
+
+Proof.
+Consider sqrt(ka) and sqrt(kb), if they are both integers, then
+sqrt(ka) / sqrt(kb) must be in the rationals. This implies that
+sqrt(a / b) must also be in the rationals. Thus, a / b must
+produce a square over a square. Note a & b themselves do
+not need to be squares.
+
+It is trivial to see that if a & b are both squares, then
+for k = 1, sqrt(ka) and sqrt(kb) are integers. However,
+a & b do not necessarily need to be squares. For example,
+20 and 5 can both be scalled by 1/5 to get (2)^2 and (1)^2.
+
+
+
+(Conjecture 1.1)
+While I have not proven Theorem 1.1 to be bijective, I believe
+it is. Consider the following:
+
+All numbers have a unique prime factorization, and when doing
+division, we're cancelling out prime factors. The condition that
+sqrt(a/b) is rational is equivalent to saying that all factors of
+a when cancelled against factors of b leave only even exponents
+in the factorization.
+
+For example: 
+a = 3 * 5^2 * 7^3
+b = 7 * 9^2 * 3
+
+a / b = 5^2 * 7^2 / 9^2
+
+Now consider some a & b such that a / b is not a square rational.
+a = 3 * 5^2
+b = 7
+
+a / b = 3 * 5^2 / 7
+
+When considering ka / kb, we can at best introduce a common factor
+to both quantities. It is impossible then to cancel out the odd
+exponents that 3 & 7 have, because if a is scalled by 3, so is b
+and fundamentally no progress has been done.
+
+I do not know if the above is rigorous, hence why this is a
+conjecture.
+
+
+
+In T1.1 and C1.1 (T = Thereom, C = Conjecture), we worked with 2
+integers. Now, let's consider if 2 rationals A, B can be scalled upto
+integer squares.
+
+Assume we have A = a / b, B = c / d. Under what conditions is there some
+k such that sqrt(A * k) and sqrt(B * k) are both rationals?
+
+If the square roots are both rationals, then sqrt(A*k) / sqrt(B*k) must
+be rational, and so by very similar logic to 1.1 we see that A / B must
+be a square rational.
+
+(Theorem 1.2)
+Given two rationals A, B, and a real number k, there exists some k such
+that sqrt(kA) and sqrt(kB) are rational if A/B is itself a square rational.
+
+
+
+An interesting corollary to consider is whether 
+
+(Theorem 1.3)
+Given two rationals A = a/b, B = c/d, and a real number k, there exists
+some 
+
+
+
+The ultimate
+
+
+
+
+
+
+
+
+ Search Space Parametrization and Reduction
+============================================
+
+== Computational Choices
+
+(Langauge)
+Before writing too much computational code, I ran some quick benchmarks.
+
+First off, my choice of programming language was between Java and Python
+because that's what I know. In each language I wrote a simple computational
+program that tries to approximate a decimal as a square rational by 
+iteratively incrementing either the numerator or the denominator.
+
+Both programs produce the exact same output, but on average Java proved
+to be roughly 50x faster. These results are in JavaPythonTimings.txt, where 
+J = Java, and P = Python.
+
+(Use Builtins)
+I also tried writing my own sqrt() algorithm based on binary search vs using
+the Java built-in sqrt function. The built-in sqrt function is _much_ faster,
+so that's what I use.
+
+
+== Attempt 1
+
+The following was done before formalizing my above results, so some work was too
+restrictive.
+
+
+
+
+
+
+
+
+
+
+
+
+
