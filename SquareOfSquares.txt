@@ -268,13 +268,34 @@ be a square rational.
 Given two rationals A, B, and a real number k, there exists some k such
 that sqrt(kA) and sqrt(kB) are rational if A/B is itself a square rational.
 
+Proof.
+If the scalled square roots are both rationals, then sqrt(A*k) / sqrt(B*k) 
+must be rational, and so by very similar logic to 1.1 we see that A / B 
+must be a square rational.
 
 
-An interesting corollary to consider is whether 
 
-(Theorem 1.3)
-Given two rationals A = a/b, B = c/d, and a real number k, there exists
-some 
+Note: Corollaries are numbered according to the theorem they apply to
+(Corollary 1.2) 
+Instead of considering A / B, it is actually equivalen to consider the
+cross multiplied quantities. A = a/b, and B = c/d. If there exists some k
+to produce rational sqrt(Ak) and sqrt(Bk), then there exists some k to
+produce rational sqrt(a*c*k) and sqrt(c*b*k), and vice versa.
+
+This is because A / B = (a/b) / (c/d) = a*d / c*b, and so if A/B is a
+square rational, then so is a*d / c*b and vice versa.
+
+
+
+this leads to an interesting implication. Integer pairs for which some k 
+exist in (1.1) with multiple prime factors can be translated into rational 
+pairs for (1.2). Take the pair a = 20 and b = 5.
+
+a = 5 * 4 and b = 1 * 5, so you can construct the rationals 
+A = 5 / 5 and B = 5 / 4. However, this factoring is not unique, and you
+could instead of chosen a = 10 * 2 or 2 * 10 or b = 5 * 1. 
+
+I do not know if this is useful but I have included it here.
 
 
 
